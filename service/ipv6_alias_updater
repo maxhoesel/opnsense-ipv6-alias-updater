@@ -1,0 +1,30 @@
+#!/bin/sh
+# OPNsense ipv6_alias updater, adapted from the ipv6_alias_updater rc.d script
+
+# Add the following lines to /etc/rc.conf to enable ipv6_alias_updater:
+# (Automatically done when running make install)
+# ipv6_alias_updater_enable="YES"
+
+. /etc/rc.subr
+
+name="ipv6_alias_updater"
+rcvar=ipv6_alias_updater_enable
+
+: ${ipv6_alias_updater_enable:="NO"}
+
+# daemon
+pidfile="/var/run/${name}.pid"
+python="/usr/local/bin/python3"
+script_py="/root/ipv6_alias_updater/ipv6_alias_updater.py"
+command=/usr/sbin/daemon
+procname="daemon"
+command_args=" -c -f -P ${pidfile} ${python} ${script_py} --config /root/ipv6_alias_updater/ipv6_alias_updater.conf"
+start_precmd="ipv6_alias_updater_precmd"
+
+ipv6_alias_updater_precmd()
+{
+    install -o root /dev/null ${pidfile}
+}
+
+load_rc_config $name
+run_rc_command "$1"
