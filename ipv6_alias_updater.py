@@ -151,12 +151,14 @@ def run():
         iface_ipv6_prefix = get_iface_ipv6_prefix()
     except UpdaterError as e:
         logging.warning(f"Could not determine interface IPv6 address. Error: {e}")
+        return
     logging.info(f"Current Interface IPv6 prefix: {iface_ipv6_prefix}")
 
     try:
         alias_ipv6_prefix = get_alias_ipv6_prefix()
     except UpdaterError as e:
         logging.warning(f"Error while determining alias IPv6 address. Error: {e}")
+        return
     logging.info(f"Current Alias IPv6 prefix: {alias_ipv6_prefix}")
 
     if iface_ipv6_prefix == alias_ipv6_prefix:
@@ -166,6 +168,7 @@ def run():
     logging.info("Prefix mismatch. Updating alias...")
     try:
         update_alias(alias_ipv6_prefix, iface_ipv6_prefix)
+        return
     except UpdaterError as e:
         logging.error(f"Could not update Alias. Reason: {e}")
 
