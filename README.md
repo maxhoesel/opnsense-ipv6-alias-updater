@@ -1,5 +1,13 @@
 # opnsense-ipv6-alias-updater
 
+---
+
+** ⚠️ This Project has been archived! ⚠️ **
+
+Alternative recommendation: You can create a interface group that contains all your local networks, then use that groups net alias in firewall rules.
+
+---
+
 A little helper script for OPNSense that automatically updates an alias with a dynamic IP prefix, determined by looking at an currently running interface.
 
 This can be useful if your ISP only gives you a dynamic IPV6 prefix and you want to have a firewall rule that permits internet access, but forbids local access:
